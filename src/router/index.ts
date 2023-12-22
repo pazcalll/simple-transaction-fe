@@ -20,10 +20,12 @@ const routes = [
           {
             path: '/produk',
             name: 'Product',
-            component: () => import('@/views/Product.vue'),
-            children: [
-
-            ]
+            component: () => import('@/views/Product.vue')
+          },
+          {
+            path: '/transaksi',
+            name: 'Transaction',
+            component: () => import('@/views/Transaction.vue')
           },
         ]
       },

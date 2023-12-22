@@ -31,6 +31,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { baseApi } from '@/Consts'
+import router from '@/router'
 
 export default {
 	setup() {
@@ -67,7 +68,7 @@ export default {
 			})
 			.then(() => {
 				localStorage.removeItem('token')
-				window.location.href = '/login'
+				window.location.reload()
 			})
 		}
 	}

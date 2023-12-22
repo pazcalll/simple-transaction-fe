@@ -3,12 +3,14 @@
 		<h2 class="mb-3">Login</h2>
 		<v-sheet width="300" class="mx-auto">
 			<v-form fast-fail @submit.prevent="submit">
+				<v-text-field v-model="name" label="Nama" :rules="nameRules"></v-text-field>
 				<v-text-field v-model="username" label="Username" :rules="usernameRules"></v-text-field>
 
 				<v-text-field type="password" v-model="password" label="Password" :rules="passwordRules"></v-text-field>
+				<v-text-field type="password" v-model="passwordConfirm" label="Konfirmasi Password" :rules="passwordRules"></v-text-field>
 
 				<v-btn type="submit" block class="mt-2 bg-blue text-white">Submit</v-btn>
-				<v-btn type="button" block class="mt-2 bg-black text-white" @click="navigateTo('Register')">Register</v-btn>
+				<v-btn type="button" block class="mt-2 bg-black text-white" @click="navigateTo('Login')">Login</v-btn>
 			</v-form>
 		</v-sheet>
 	</v-card>
@@ -53,14 +55,22 @@ export default {
 		}
 	},
 	data: () => ({
-		wording: '',
 		status: false,
+		wording: '',
+		name: '',
+		nameRules: [
+			(value: string) => {
+				if (value?.length >= 3) return true
+
+				return 'Nama minimal 3 karakter.'
+			},
+		],
 		username: '',
 		usernameRules: [
 			(value: string) => {
 				if (value?.length >= 3) return true
 
-				return 'username must be at least 3 characters.'
+				return 'Username minimal 3 karakter.'
 			},
 		],
 		password: '',
@@ -68,25 +78,32 @@ export default {
 			(value: string) => {
 				if (value?.length >= 6) return true
 
-				return 'password must be at least 6 characters.'
+				return 'Password minimal 6 karakter.'
+			},
+		],
+		passwordConfirm: '',
+		passwordConfirmRules: [
+			(value: string) => {
+				if (value?.length >= 6) return true
+
+				return 'Konfirmasi Password minimal 6 karakter.'
 			},
 		],
 	}),
 	methods: {
 		async submit() {
-			const { username, password } = this
-			console.log(username, password)
 
-			await axios.post(baseApi+'/api/authenticate', {
-					username: username,
-					password: password,
-				}, {
+			await axios.post(baseApi+'/api/users', {
+				name: this.name,
+				username: this.username,
+				password: this.password,
+				password_confirmation: this.passwordConfirm,
+			}, {
 				headers: {
 					'Content-Type': 'application/json',
-				}
+				},
 			})
 			.then((response) => {
-				console.log(response)
 				const res = response.data
 				const data = res.data
 
@@ -97,7 +114,7 @@ export default {
 			})
 			.catch((err) => {
 				this.status = true
-				this.wording = err.response.data.data.message
+				this.wording = err.response.data.message
 				console.log(err)
 			})
 		},

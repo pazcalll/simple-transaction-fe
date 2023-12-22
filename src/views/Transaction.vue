@@ -4,7 +4,7 @@
 
 	<v-text-field
 			v-model="search"
-			label="Search"
+			label="Cari Nomor Referensi"
 			prepend-inner-icon="mdi-magnify"
 			single-line
 			variant="outlined"
@@ -19,8 +19,8 @@
 
 <style scoped>
 	.v-table{
-		height: 80vh;
-		width: 80vw;
+		height: 70vh;
+		width: 70vw;
 	}
 </style>
 

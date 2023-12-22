@@ -1,5 +1,7 @@
 # essentials
 
+copy ``.env.example`` to the same directory and then rename to ``.env``
+
 ## Project setup
 
 ```

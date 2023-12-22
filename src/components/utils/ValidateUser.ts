@@ -10,13 +10,16 @@ export const ValidateUser = async () => {
             'Authorization': 'Bearer '+localStorage.getItem('token')+''
         }
     })
-    .then(response => {
+    .then(async response => {
         if (response.status === 200) {
             // The request was successful
             console.log(response.data);
         } else {
             // The request failed
-            console.log('Request failed with status: ', response.status);
+            await new Promise((resolve, reject) => {
+                console.log('Request failed with status: ', response.status);
+                setTimeout(() => resolve(''), 2000);
+            })
         }
     })
     .catch(error => {

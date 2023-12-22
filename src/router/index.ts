@@ -9,14 +9,18 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
-        component: () => import('@/views/Home.vue'),
         beforeEnter: async (to, from) => ValidateUser(),
+        component: () => import('@/components/Sidebar.vue'),
         children: [
+          // {
+          //   path: '',
+          //   name: 'Home',
+          //   component: () => import('@/views/Home.vue'),
+          // },
           {
-            path: '/dashboard',
-            name: 'Dashboard',
-            component: () => import('@/views/Dashboard.vue'),
+            path: '/produk',
+            name: 'Product',
+            component: () => import('@/views/Product.vue'),
             children: [
 
             ]

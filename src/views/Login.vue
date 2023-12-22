@@ -2,11 +2,11 @@
 	<v-card variant="outlined">
 		<h2 class="mb-3">Login</h2>
 		<v-sheet width="300" class="mx-auto">
-			<v-form fast-fail @submit.prevent>
+			<v-form fast-fail @submit.prevent="submit">
 				<v-text-field v-model="username" label="First name" :rules="usernameRules"></v-text-field>
-	
+
 				<v-text-field v-model="password" label="Password" :rules="passwordRules"></v-text-field>
-	
+
 				<v-btn type="submit" block class="mt-2 bg-blue text-white">Submit</v-btn>
 				<v-btn type="button" block class="mt-2 bg-black text-white">Register</v-btn>
 			</v-form>
@@ -40,7 +40,7 @@ export default {
 		async submit() {
 			const { username, password } = this
 
-			await axios(baseApi+'/api/login', {
+			await axios(baseApi+'/api/authenticate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -50,9 +50,14 @@ export default {
 					password: password,
 				},
 			})
-			.then((res) => {
-				console.log(res)
-				// window.location.href = '/dashboard'
+			.then((response) => {
+				const res = response.data
+				const data = res.data
+
+				localStorage.setItem('token', data.token)
+				localStorage.setItem('user', JSON.stringify(data.user))
+
+				window.location.href = '/produk'
 			})
 			.catch((err) => {
 				console.log(err)

@@ -11,6 +11,16 @@
 					</v-list-item-content>
 				</div>
 			</v-list-item>
+			<v-list-item link>
+				<div class="d-inline-flex" @click="logout">
+					<v-list-item-icon>
+						<v-icon>mdi-door</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title>Logout</v-list-item-title>
+					</v-list-item-content>
+				</div>
+			</v-list-item>
 		</v-list>
 	</v-navigation-drawer>
 	<router-view></router-view>
@@ -19,6 +29,8 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import { baseApi } from '@/Consts'
 
 export default {
 	setup() {
@@ -44,6 +56,20 @@ export default {
 		]
 
 		return { drawer, navigateTo, links }
+	},
+	methods: {
+		async logout() {
+			await axios(baseApi+'/api/logout', {
+				headers: {
+					'Authorization': 'Bearer '+localStorage.getItem('token')
+				},
+				method: 'DELETE'
+			})
+			.then(() => {
+				localStorage.removeItem('token')
+				window.location.href = '/login'
+			})
+		}
 	}
 }
 </script>
